@@ -1,5 +1,5 @@
 # BIOE230-Final-Project
-BIOE23-Final-Project-DNA biopolymer confinement and escape (molecular confinements)
+BIOE230-Final-Project-DNA biopolymer confinement and escape (molecular confinements)
 **README**
 
 DNA Biopolymer Confinement and Escape (Molecular Dynamics)
