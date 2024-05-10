@@ -1,0 +1,83 @@
+# Set up basic simulation stuff
+dimension 3
+units lj
+atom_style molecular
+boundary p p f
+
+# Define the box size
+variable xlo equal -30.0
+variable xhi equal 30.0
+variable ylo equal -30.0
+variable yhi equal 30.0
+variable zlo equal -25.0
+variable zhi equal 25.0
+
+# Define the solvent region
+region solvent block -20 20 -20 20 -20 20
+
+#Temperature in reduced units
+variable temp equal 3.0
+
+# Number of obstacles to add
+variable npart equal 0
+
+# Read input configuration for polymer
+read_data poly1.input
+
+# Define groups
+group mobile type 1
+
+# Define solvent molecules
+mass 2 1.0
+create_atoms 2 random 500 12345 solvent
+
+# Set up pair interactions for polymer and solvent
+pair_style lj/cut 2.5
+pair_coeff 1 1 1.0 1.0 2.5
+pair_coeff 1 2 1.0 1.0 2.5
+pair_coeff 2 2 1.0 1.0 2.5
+
+#neighbor settings
+neighbor 2.0 bin
+neigh_modify every 1 delay 0 check yes
+
+#Type 1 is polymer. type 2 is fixed
+group mobile type 1
+
+#Weeks-Chandler-Anderson
+pair_style lj/cut 1.12246204830937
+pair_coeff * * 1.0 1.0 1.12246204830937
+pair_modify shift yes
+
+#FENE type bond
+bond_style fene
+bond_coeff 1 30.0 1.5 0.5 1.0
+special_bonds fene
+
+# Define a rectangular region for confinement
+region confine block -15 15 -25 25 -0.001 0.001 side in
+
+#remove overlap between polymer and obstacles
+minimize 1e-5 1e-5 100 100
+reset_timestep 0
+
+#make pictures
+shell "mkdir img"
+shell "rm img/*"
+dump img all image 1000 img/t*.jpg type type adiam 0.7 bond type 0.8 zoom 1.6 view 0 0
+dump_modify img backcolor white boxcolor black
+dump_modify img pad 6
+
+#save video
+#dump video all movie 100 movie.avi type type adiam 0.7 bond type 0.8 zoom 1.6 view 0 0
+#dump_modify video backcolor white boxcolor black
+
+fix integrator mobile nve
+#fix dynamics mobile langevin ${temp} ${temp} 0.5 252352
+#fix run2d all enforce2d
+
+# specify timestep
+timestep 0.000000001
+thermo 100
+
+run 1000000
