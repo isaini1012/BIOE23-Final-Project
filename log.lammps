@@ -1,0 +1,188 @@
+LAMMPS (21 Nov 2023)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+#number of particles
+variable npart  equal 600
+
+# Define the number of polymer atoms
+variable npolymer equal 100
+
+#temperature at start and stop (in reduced units)
+variable tempstart   equal 0.5
+variable tempstop    equal 0.5
+
+units		lj
+dimension 2
+atom_style	atomic
+boundary        p p p
+neighbor        0.5   bin
+neigh_modify    every 1 delay 0 check yes
+
+# create 2D box
+region box block -20 20 -20 20 -0.1 0.1
+create_box 1 box
+Created orthogonal box = (-20 -20 -0.1) to (20 20 0.1)
+  1 by 1 by 1 MPI processor grid
+
+#put z=0 all the time
+fix 2d  all enforce2d
+
+#put the particles randomly into the box
+region box2 block -20 20 -20 20 -0.1 0.1
+create_atoms 1 random ${npart} 324523 box2
+create_atoms 1 random 600 324523 box2
+Created 600 atoms
+  using lattice units in orthogonal box = (-20 -20 -0.1) to (20 20 0.1)
+  create_atoms CPU = 0.001 seconds
+
+# create DNA polymer chain
+region box_polymer block -6 -6 -6 6 -0.1 0.1
+create_atoms 1 random ${npolymer} 324523 box_polymer
+create_atoms 1 random 100 324523 box_polymer
+Created 100 atoms
+  using lattice units in orthogonal box = (-20 -20 -0.1) to (20 20 0.1)
+  create_atoms CPU = 0.000 seconds
+
+#all particles has mass 1
+mass   *	1
+
+#Lennard-Jones pair interaction between particles
+pair_style lj/cut 2.5
+pair_coeff * * 1.0 1.0
+
+# Lennard-Jones pair interaction between DNA polymer and solvent/crystal particles
+pair_coeff 1 1 1.0 1.0
+
+#minimize energy first to avoid overlapping particles
+minimize 1.0e-4 1.0e-4 1000 1000
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 3
+  ghost atom cutoff = 3
+  binsize = 1.5, bins = 27 27 1
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/atomonly/newton
+      stencil: half/bin/2d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 4.182 | 4.182 | 4.182 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              1.1088688e+41  0              1.1088688e+41  2.9107806e+41
+       110   0              8.9335603e+10  0              8.9335603e+10  2.3450623e+11
+Loop time of 0.134393 on 1 procs for 110 steps with 700 atoms
+
+94.4% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = energy tolerance
+  Energy initial, next-to-last, final = 
+    1.10886878372842e+41   89337326861.8168    89335603496.281
+  Force two-norm initial, final = 5.333334e+48 7.3423667e+14
+  Force max component initial, final = 3.7712367e+48 3.8331813e+14
+  Final line search alpha, max atom move = 9.7715976e-18 0.0037456305
+  Iterations, force evaluations = 110 651
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.1223     | 0.1223     | 0.1223     |   0.0 | 91.00
+Neigh   | 0.00040935 | 0.00040935 | 0.00040935 |   0.0 |  0.30
+Comm    | 0.0014821  | 0.0014821  | 0.0014821  |   0.0 |  1.10
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.001759   | 0.001759   | 0.001759   |   0.0 |  1.31
+Other   |            | 0.00844    |            |       |  6.28
+
+Nlocal:            700 ave         700 max         700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            193 ave         193 max         193 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:           6403 ave        6403 max        6403 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 6403
+Ave neighs/atom = 9.1471429
+Neighbor list builds = 2
+Dangerous builds = 0
+reset_timestep 0
+
+#remove overlap between polymer and obstacles
+minimize 1.0e-5 1.0e-5 100 100
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 4.182 | 4.182 | 4.182 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              8.9335603e+10  0              8.9335603e+10  2.3450623e+11
+        18   0              4.9047223e+10  0              4.9047223e+10  1.2874916e+11
+Loop time of 0.0194606 on 1 procs for 18 steps with 700 atoms
+
+98.7% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = max force evaluations
+  Energy initial, next-to-last, final = 
+       89335603496.281   49745974213.4432   49047222825.8749
+  Force two-norm initial, final = 7.3423667e+14 2.2650923e+14
+  Force max component initial, final = 3.8331813e+14 9.674294e+13
+  Final line search alpha, max atom move = 1.0224644e-16 0.0098916208
+  Iterations, force evaluations = 18 104
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.017966   | 0.017966   | 0.017966   |   0.0 | 92.32
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.00014191 | 0.00014191 | 0.00014191 |   0.0 |  0.73
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.00022944 | 0.00022944 | 0.00022944 |   0.0 |  1.18
+Other   |            | 0.001124   |            |       |  5.77
+
+Nlocal:            700 ave         700 max         700 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:            193 ave         193 max         193 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:           6396 ave        6396 max        6396 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 6396
+Ave neighs/atom = 9.1371429
+Neighbor list builds = 0
+Dangerous builds = 0
+reset_timestep 0
+
+#save images
+shell "mkdir img"
+WARNING: Shell command mkdir img returned with non-zero status (src/input.cpp:1324)
+shell "rm img/*"
+dump        img all  image  1000 img/t*.jpg    type type adiam 0.6 zoom 1.7
+dump_modify img backcolor white  boxcolor black
+dump_modify img pad 6
+
+#save video
+#dump        video all  movie  50 movie.avi    type type adiam 0.6 zoom 1.7
+#dump_modify video backcolor white  boxcolor black
+
+#integrate Newtons equation of motion with stochastic kicks and friction
+#the kicks and friction model the effect of temperature
+
+fix integrator all nve
+fix dynamics   all langevin ${tempstart} ${tempstop} 1.0 2352325
+fix dynamics   all langevin 0.5 ${tempstop} 1.0 2352325
+fix dynamics   all langevin 0.5 0.5 1.0 2352325
+
+#output time step, temperature, average kinetic and potential energy
+thermo_style custom step temp  ke pe
+thermo		100
+
+#time step of integrator
+timestep	0.01
+
+#number of steps to run
+run		20000
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 3.057 | 3.057 | 3.057 Mbytes
+   Step          Temp          KinEng         PotEng    
+         0   0              0              4.9047223e+10
+ERROR: Lost atoms: original 700 current 14 (src/thermo.cpp:491)
+Last command: run		20000
