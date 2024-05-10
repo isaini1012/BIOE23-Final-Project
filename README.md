@@ -91,6 +91,16 @@ lammps --version
 3. You should see the LAMMPS version displayed in the Cygwin terminal.
 
 ---
+### LAMMPS 
+In this repository we have included two main files that will be needed to run LAMMPS. During installation these files should already be downloaded and installed when making your LAMMPS environment.
+
+#### log.lammps
+log.lammps is the defualt log file that is needed to run all your simulations and perform the commands in your computer
+
+#### lj.lam
+lj.lam will determine the untis used for your code, in this case, we used the lj untis for the purpose of making our simulation easy to work with in comparison to hacing real units implemented into our code.
+
+---
 
 You have now successfully installed LAMMPS on your Mac and PC! Happy Simulating!
 
