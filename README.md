@@ -37,6 +37,57 @@ DNA, the most famous biomolecule, is packed into a highly confined space within 
 
 ---
 
+### How to Install LAMMPS on Mac and PC
+
+#### Mac
+
+##### Step 1: Install Homebrew (if not already installed)
+1. Open Terminal.
+2. Paste the following command and press Enter:
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+##### Step 2: Install LAMMPS
+1. In Terminal, paste the following command and press Enter:
+```
+brew install lammps
+```
+
+##### Step 3: Verify Installation
+1. In Terminal, type the following command and press Enter:
+```
+lammps --version
+```
+2. You should see the LAMMPS version displayed in the Terminal.
+
+#### PC
+
+##### Step 1: Download and Install Cygwin
+1. Go to the [Cygwin website](https://www.cygwin.com/).
+2. Download the Cygwin installer appropriate for your system (32-bit or 64-bit).
+3. Run the installer and follow the installation instructions.
+
+##### Step 2: Select LAMMPS Package
+1. During installation, when asked to select packages, search for "lammps".
+2. Select the appropriate LAMMPS package for installation.
+
+##### Step 3: Complete Installation
+1. Complete the Cygwin installation process.
+2. LAMMPS will be installed along with Cygwin.
+
+##### Step 4: Verify Installation
+1. Open Cygwin.
+2. Type the following command to check the LAMMPS version:
+```
+lammps --version
+```
+3. You should see the LAMMPS version displayed in the Cygwin terminal.
+
+---
+
+You have now successfully installed LAMMPS on your Mac and PC! Happy Simulating!
+
 ### Contributors:
 - Isha Saini
 - Cesar Sotero
