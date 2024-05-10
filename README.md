@@ -1,8 +1,8 @@
 # BIOE230-Final-Project
-BIOE230-Final-Project-DNA biopolymer confinement and escape (molecular confinements)
+##BIOE230-Final-Project-DNA biopolymer confinement and escape (molecular confinements)
 **README**
 
-DNA Biopolymer Confinement and Escape (Molecular Dynamics)
+##DNA Biopolymer Confinement and Escape (Molecular Dynamics)
 
 ### Purpose:
 This GitHub repository contains the code and resources for a project aimed at simulating the confinement and escape of DNA biopolymers using Molecular Dynamics (MD) simulations. The project, part of a bioengineering graduate course, aims to explore the dynamic behavior of DNA molecules at the atomic level using molecular dynamics (MD) simulations, specifically focusing on studying the behavior of DNA biopolymers in confined environments. By simulating the dynamic behavior of DNA molecules at the atomic level, we aim to understand how DNA escapes from confinement and the factors influencing this process. This project will provide valuable insights into the dynamic behavior of DNA molecules, with potential applications in understanding cellular processes and designing DNA-based nanotechnologies.
