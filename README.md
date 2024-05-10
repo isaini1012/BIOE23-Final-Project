@@ -32,7 +32,7 @@ Contributors:
 - Cesar Sotero
 
 Acknowledgments:
-- This project was developed as part of the bioengineering graduate course Computation and Modeling in Interdisciplinary Sciences and Engineering at University of Califonia Merced.
+- This project was developed as part of the bioengineering graduate course Computation and Modeling in Interdisciplinary Sciences and Engineering (BIOE 230) at University of Califonia Merced.
 - Special thanks to Dr. Kinjal Dasbiswas for guidance and support.
 
 ---
