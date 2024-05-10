@@ -14,6 +14,12 @@ DNA, the most famous biomolecule, is packed into a highly confined space within 
 
 ---
 
+### This project is intended for:
+
+This project is intended for graduate students and researchers in bioengineering, molecular biology, and computational biology, as well as those interested in learning about molecular dynamics simulations and their applications in studying biomolecular systems. It also targets individuals looking to explore DNA behavior under confinement and understand its implications in biological processes.
+
+---
+
 ### Benefits:
 - Gain hands-on experience with Molecular Dynamics simulations.
 - Understand the dynamic behavior of DNA molecules under confinement.
