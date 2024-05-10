@@ -109,5 +109,5 @@ This repository has the following documents (excluding codes):
 
 1. Phys_230_Final_Presentation_IshaSaini_and_CesarSotero.pdf which holds our presentation, along with a few slides at the end that showcase the new results.
 
-2. BioE_230_HW4_ProjectPlanSubmission.pdf which is my HW 4 submission without any modifications.
+2. BioE_230_HW4_ProjectPlanSubmission.pdf which is my revised HW 4 submission that include the feedback given by Dr. Kinjal Dasbiswas.
 
